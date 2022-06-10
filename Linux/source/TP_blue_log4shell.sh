@@ -8,7 +8,13 @@
 
 
 tp_blue_log_main(){
-	tp_blue_log_CLEAR_BANNIERE
+     tp_blue_log_CLEAR_BANNIERE
+	#tp_blue_log_run_vm
+	tp_blue_log_etape_1
+	tp_blue_log_etape_2
+	tp_blue_log_etape_3
+	tp_blue_log_etape_4
+	tp_blue_log_retour_menu
 }
 
 
@@ -24,11 +30,122 @@ tp_blue_log_CLEAR_BANNIERE(){
 	echo "#                                                               #"
 	echo "#################################################################"
 	echo "------------------------------------------------------------------"
-	echo " Mise en pratique sur la vulnérabilité Log4Shell en Blue Team"
+	echo " Mise en pratique sur la vulnérabilité Log4Shell en blue Team"
 	echo "------------------------------------------------------------------"
+	echo -e "\n"
 }
 
 
 tp_blue_log_run_vm(){
 
+	echo "[~] Décompression de la VM vulnérable"
+	if [ -e ../VM/vm_blue_log.zip ]
+	then
+		unzip ../VM/vm_blue_log.zip
+	fi
+
+	echo "[~] Lancement de la VM vulnérable"
+	 ../VM/vm_blue_log/vm_blue_log.vmx
+
+	echo -e "\n\n"
 }
+
+tp_red_log_etape_1(){
+	echo "------------------------------------------------------------------"
+	echo " Etape 1 - Explication de la vulnérabilité"
+	echo "------------------------------------------------------------------"
+
+	read -p "Appuyer sur une touche pour continuer..."
+
+	echo "
+La vulnérabilité Log4Shell a été découverte en fin 2021 par l'équipe de sécurité cloud d'Alibaba.
+Le scrore CVSS de cette vulnérabilité est de 10 : CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H
+
+Un score aussi haut est dûe au fait que la vulnérabilité permet à l'attaquant d'exécuter facilement du code arbitraire sur la machine distance, sans s'authentifier. C'est une RCE.
+"
+	read -p "Appuyer sur une touche pour continuer..."
+
+	echo "
+La vulnérabilité se base sur le framework Log4J développé par Apache Software Foundation qui permet de gérer toutes les journalisations des applications Java.
+Ce framework est tellement utile qu'il est utilisé dans la plupart des logiciels Java. Beaucoup de bibliothèque Java utilise également ce framework. Cette utilisation massive a permit à log4Shell d'etre exploitée à grande échelle.
+Dans les versions du framework vulnérables à Log4Shell, il était possible de faire des rêquetes LDAP, DNS, RMI et JNDI qui n'était pas vérifié et donc de faire appel à des ressources externes.
+"
+
+	read -p "Appuyer sur une touche pour continue avec l'étape 2..."
+	echo -e "\n"
+
+}
+
+tp_blue_log_etape_2(){
+	echo "------------------------------------------------------------------"
+	echo " Etape 2 - Exploration de la machine vulnérable"
+	echo "------------------------------------------------------------------"
+
+	echo "Les credentials pour se connecter a la machine sont getsun2ez:IWantRootAccess.
+	Tout d'abord, il faut définir la surface attaquée :
+
+	- Quels sont les services utilisés sur le serveur, quels sont leurs versions ?
+
+	- Ou sont stockés les logs qui pourraient servir a retracer l'attaque pour ces services ?
+
+	"
+	
+	read -p "Appuyer sur une touche pour continuer..."
+
+}
+
+tp_blue_log_etape_3(){
+	echo "------------------------------------------------------------------"
+	echo " Etape 3 - Recherche d'IOCs"
+	echo "------------------------------------------------------------------"
+
+	echo "Nous pouvons tout d'abord constater que la technologie utilisé est 'Apache Solr' sur le port '8983', que sa version est '8.11.0', et que la version de Java utilisé par celui-ci est la '1.8.0_181'.
+
+	Pour les sources de logs, on peut constater en regardant la page d'accueil de Solr, que ses logs sont stockés dans /var/solr/logs selon la variable Dsolr.log.dir.
+
+	Lorsque les sources de logs sont trouvés, il faut alors y dénicher les éléments pertinents qui pourrais dévoiler une attaque.
+
+	Il faut donc trouver un maximum d'informations qui soit liés a l'attaquant, tel que les commandes utilisés, la période de temps dans laquelle est survenue l'attaque, les IP utilisés par celui-ci.
+	"
+
+	read -p "Appuyer sur une touche pour continuer..."
+
+}
+
+tp_blue_log_etape_4(){
+	echo "------------------------------------------------------------------"
+	echo " Etape 4 - Remédiation / Mitigation"
+	echo "------------------------------------------------------------------"
+
+	echo " Remédiation des failles de l'application
+
+	On peut apercevoir dans les logs situés dans /var/solr/logs, des requetes jndi qui ont été faites vers le serveur de l'attaquant, qui ensuite redirige le flux vers un serveur http pour récupérer l'exploit. Nous pouvons donc récupérer l'heure, ainsi que l'ip et le nom de l'exploit de la machine attaquante.
+	On voit également que la page vulnérable exploitée par l'attaquant est /admin/cores, car elle permet d'accéder a l'API jndi.  
+	
+
+	Afin de remédier a cette faille de sécurité critique, de nombreuses options s'offre a nous :
+
+	- Mettre a jour Solr vers la version 8.11.1, qui patche la faille de log4j en incluant une version plus récente(>=2.16.0), ou mettre a jour la version de log4j manuellement vers une version patchée.
+
+	-
+	"
+
+	read -p "Appuyer sur une touche pour continuer..."
+
+	echo " Remédiation générales de sécurité
+
+	La machine, hormis avec sa version obsolète de java permettant d'exploiter log4shell, possède également plusieurs failles de sécurité plus courantes.
+	"
+
+	read -p "Appuyer sur une touche pour continuer..."
+
+}
+
+tp_blue_log_retour_menu(){
+	echo "------------------------------------------------------------------"
+	echo " Ce TP est maintenant terminé."
+	echo "------------------------------------------------------------------"
+	read -p "Appuyer sur une touche pour retourner au menu..."
+
+}
+
