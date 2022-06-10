@@ -46,11 +46,12 @@ tp_red_log_CLEAR_BANNIERE(){
 tp_red_log_run_vm(){
 
 	echo "[~] Décompression de la VM vulnérable\n"
-	if [ -e ../VM/vm_red_log.zip ]
+	if [ ! -e ../VM/vm_red_log.zip ]
 	then
-		unzip ../VM/vm_red_log.zip
+		#wget 
 	fi
-
+	#unzip ../VM/vm_red_log.zip
+	
 	echo "[~] Lancement de la VM vulnérable"
 	#vmrun -T ws start../VM/vm_red_log/vm_red_log.vmx
 
