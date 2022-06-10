@@ -48,7 +48,7 @@ tp_red_log_run_vm(){
 	echo "[~] Décompression de la VM vulnérable\n"
 	if [ ! -e ../VM/vm_red_log.zip ]
 	then
-		#wget 
+		#wget -o ../VM/vm_red_log.zip LIEN
 	fi
 	#unzip ../VM/vm_red_log.zip
 	
