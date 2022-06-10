@@ -9,7 +9,7 @@
 
 tp_blue_log_main(){
      tp_blue_log_CLEAR_BANNIERE
-	#tp_blue_log_run_vm
+	tp_blue_log_run_vm
 	tp_blue_log_etape_1
 	tp_blue_log_etape_2
 	tp_blue_log_etape_3
@@ -38,14 +38,15 @@ tp_blue_log_CLEAR_BANNIERE(){
 
 tp_blue_log_run_vm(){
 
-	echo "[~] Décompression de la VM vulnérable"
-	if [ -e ../VM/vm_blue_log.zip ]
+	echo "[~] Décompression de la VM vulnérable\n"
+	if [ ! -e ../VM/vm_blue_log.zip ]
 	then
-		unzip ../VM/vm_blue_log.zip
+		#wget 
 	fi
-
+	#unzip ../VM/vm_blue_log.zip
+	
 	echo "[~] Lancement de la VM vulnérable"
-	 ../VM/vm_blue_log/vm_blue_log.vmx
+	#vmrun -T ws start../VM/vm_blue_log/vm_blue_log.vmx
 
 	echo -e "\n\n"
 }
@@ -81,7 +82,7 @@ tp_blue_log_etape_2(){
 	echo " Etape 2 - Exploration de la machine vulnérable"
 	echo "------------------------------------------------------------------"
 
-	echo "Les credentials pour se connecter a la machine sont getsun2ez:IWantRootAccess.
+	echo "Les credentials pour se connecter a la machine sont getsun2ez:getsun2ez.
 	Tout d'abord, il faut définir la surface attaquée :
 
 	- Quels sont les services utilisés sur le serveur, quels sont leurs versions ?
@@ -117,7 +118,7 @@ tp_blue_log_etape_4(){
 	echo " Etape 4 - Remédiation / Mitigation"
 	echo "------------------------------------------------------------------"
 
-	echo " Remédiation des failles de l'application
+	echo " Remédiation de la vulnérabilité log4j
 
 	On peut apercevoir dans les logs situés dans /var/solr/logs, des requetes jndi qui ont été faites vers le serveur de l'attaquant, qui ensuite redirige le flux vers un serveur http pour récupérer l'exploit. Nous pouvons donc récupérer l'heure, ainsi que l'ip et le nom de l'exploit de la machine attaquante.
 	On voit également que la page vulnérable exploitée par l'attaquant est /admin/cores, car elle permet d'accéder a l'API jndi.  
@@ -132,9 +133,13 @@ tp_blue_log_etape_4(){
 
 	read -p "Appuyer sur une touche pour continuer..."
 
-	echo " Remédiation générales de sécurité
+	echo " Remédiation générales de sécurité / Hardening
 
 	La machine, hormis avec sa version obsolète de java permettant d'exploiter log4shell, possède également plusieurs failles de sécurité plus courantes.
+
+	On peut par exemple ajouter une politique de mot de passe et modifier celui de l'utilisateur getsun2ez, bien trop explicite(user=mdp).
+
+	Une couche supplémentaire de sécurité serais également d'installer un WAF(Web Application Firewall) pour surveiller les requetes effectuées.
 	"
 
 	read -p "Appuyer sur une touche pour continuer..."
