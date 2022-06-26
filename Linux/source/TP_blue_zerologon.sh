@@ -56,9 +56,8 @@ tp_red_zero_etape_1(){
 	echo " Etape 1 - Explication de la vulnérabilité"
 	echo "------------------------------------------------------------------"
 
-	read -p "Appuyer sur une touche pour continuer..."
-
 	echo "
+	
 	"
 	read -p "Appuyer sur une touche pour continuer..."
 
