@@ -166,8 +166,6 @@ Pour écrire ce programme, l'outil impacket peut se révéler extrêmement utile
 	read -p "Lorsque que vous pensez avoir déterminer si la vulnérabilité est réalisable. Appuyer sur une touche pour continuer avec l'étape 4..."
 	echo -e "\n"
 
-  #Recherche sur internet des potentiels outils, l'application a des failles connu bien particuliere ?
-
 }
 
 tp_red_log_etape_4(){
