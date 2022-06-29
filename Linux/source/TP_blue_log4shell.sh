@@ -80,7 +80,7 @@ tp_blue_log_etape_2(){
 	echo " Etape 2 - Exploration de la machine vulnérable"
 	echo "------------------------------------------------------------------"
 
-	echo "Les credentials pour se connecter a la machine sont getsun2ez:getsun2ez.
+	echo "Les identifiants pour se connecter a la machine sont getsun2ez:getsun2ez.
 	Tout d'abord, il faut définir la surface attaquée :
 
 	- Quels sont les services utilisés sur le serveur, quels sont leurs versions ?
@@ -97,9 +97,10 @@ tp_blue_log_etape_3(){
 	echo " Etape 3 - Recherche d'IOCs"
 	echo "------------------------------------------------------------------"
 
-	echo "Nous pouvons tout d'abord constater que la technologie utilisé est 'Apache Solr' sur le port '8983', que sa version est '8.11.0', et que la version de Java utilisé par celui-ci est la '1.8.0_181'.
+	echo "Nous pouvons tout d'abord constater que la technologie utilisé est 'Apache Solr' sur le port '8983', que sa version est '8.11.0', et que la version de Java utilisé par celui-ci est la '1.8.0_181'. 
+	On peut également constater que le site n'est joignable qu'en local, et qu'un proxy est défini sur le port 80 qui redirige vers le Solr.
 
-	Pour les sources de logs, on peut constater en regardant la page d'accueil de Solr, que ses logs sont stockés dans /var/solr/logs selon la variable Dsolr.log.dir.
+	Pour les sources de logs, on peut constater en regardant la page d'accueil de Solr, que ses logs sont stockés dans /var/solr/logs selon la variable Dsolr.log.dir. Nous pouvons aussi voir les logs d'apache2 pour le proxy, dans /var/log/apache2/{access/error}.log
 
 	Lorsque les sources de logs sont trouvés, il faut alors y dénicher les éléments pertinents qui pourrais dévoiler une attaque.
 
@@ -117,15 +118,17 @@ tp_blue_log_etape_4(){
 
 	echo " Remédiation de la vulnérabilité log4j
 
-	On peut apercevoir dans les logs situés dans /var/solr/logs, des requetes jndi qui ont été faites vers le serveur de l'attaquant, qui ensuite redirige le flux vers un serveur http pour récupérer l'exploit. Nous pouvons donc récupérer l'heure, ainsi que l'ip et le nom de l'exploit de la machine attaquante.
-	On voit également que la page vulnérable exploitée par l'attaquant est /admin/cores, car elle permet d'accéder a l'API jndi.  
+	On peut apercevoir dans les logs Solr ou encore dans ceux d'apache, des requetes jndi qui ont été faites vers le serveur de l'attaquant, qui ensuite redirige le flux vers un serveur http pour récupérer l'exploit. Nous pouvons donc récupérer l'heure, ainsi que l'ip et le nom de l'exploit de la machine attaquante.
+	On voit également que la page vulnérable exploitée par l'attaquant est /admin/cores, car elle permet d'accéder a l'API jndi.
+	On peut voir ensuite que les règles du proxy WAF on permis de bloquer les commandes jndi classique, mais derrière l'attaquant arrive a contourner cela avec de l'obfuscation.
 	
 
 	Afin de remédier a cette faille de sécurité critique, de nombreuses options s'offre a nous :
 
 	- Mettre a jour Solr vers la version 8.11.1, qui patche la faille de log4j en incluant une version plus récente(>=2.16.0), ou mettre a jour la version de log4j manuellement vers une version patchée.
 
-	-
+	- Pour éviter l'obfuscation, implémenter des règles de securité plus stricts dans l'analyse des données envoyés.
+
 	"
 
 	read -p "Appuyer sur une touche pour continuer..."
@@ -136,7 +139,7 @@ tp_blue_log_etape_4(){
 
 	On peut par exemple ajouter une politique de mot de passe et modifier celui de l'utilisateur getsun2ez, bien trop explicite(user=mdp).
 
-	Une couche supplémentaire de sécurité serais également d'installer un WAF(Web Application Firewall) pour surveiller les requetes effectuées.
+	De plus le WAF possède une règle assez basique, qui est facile a contourner. Il faudrais donc mieux exploiter la puissance de celui-ci avec des règles plus complexes (voir notamment https://github.com/coreruleset/coreruleset).
 	"
 
 	read -p "Appuyer sur une touche pour continuer..."
