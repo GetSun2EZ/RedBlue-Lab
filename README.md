@@ -6,7 +6,7 @@ Il est nécessaire d'avoir VMware Workstation.
 Il est nécessaire d'avoir minimum les caractèristiques suivantes : 
  - 8 GB de RAM
  - Processeur i5 7th
- - 40 GB de place disponibles sur votre Host
+ - 50 GB de place disponibles sur votre Host
 
 ## Sous Linux
 ### Lancement du projet
