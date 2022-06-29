@@ -129,10 +129,6 @@ Il peut être juditieux de prendre des notes pour garder des traces de ses reche
 	read -p "Lorsque votre exploration est finie. Appuyer sur une touche pour continuer avec l'étape 3..."
 	echo -e "\n"
 
-	#nmap
-	#quelle application ?
-	#version ?
-	#vulnérabilité disponibles ?
 }
 
 tp_red_log_etape_3(){
