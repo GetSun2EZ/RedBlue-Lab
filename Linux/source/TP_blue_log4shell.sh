@@ -128,7 +128,6 @@ tp_blue_log_etape_4(){
 	- Mettre a jour Solr vers la version 8.11.1, qui patche la faille de log4j en incluant une version plus récente(>=2.16.0), ou mettre a jour la version de log4j manuellement vers une version patchée.
 
 	- Pour éviter l'obfuscation, implémenter des règles de securité plus stricts dans l'analyse des données envoyés.
-
 	"
 
 	read -p "Appuyer sur une touche pour continuer..."
