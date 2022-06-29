@@ -180,7 +180,7 @@ Indice :
 "
 
 	echo "
-Lorsqu'on obtient un accès shell, un drapeau est disponible dans le /home du l'utilisateur.
+Lorsqu'on obtient un accès shell, un drapeau est disponible dans le dossier courant.
 "
 
 	read -p "Appuyer sur une touche pour continuer..."
@@ -199,7 +199,7 @@ tp_red_log_etape_5(){
 	echo "------------------------------------------------------------------"
 
 	echo "
-A cette étape, vous devriez avoir obtenir le drapeau de l'utilisateur. Le drapeau utilisateur est flag\{jndiIsAGoodAPI\}.
+A cette étape, vous devriez avoir obtenir le drapeau de l'utilisateur. Le drapeau utilisateur est flag{jndiIsAGoodAPI}.
 
 Pour finir completement le TP, il faut obtenir le drapeau administrateur. Il faut donc trouver un moyen de faire un escalade de privilèges.
 
