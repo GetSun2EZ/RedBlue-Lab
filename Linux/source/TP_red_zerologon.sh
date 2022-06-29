@@ -9,6 +9,14 @@
 
 tp_red_zero_main(){
         tp_red_zero_CLEAR_BANNIERE
+	tp_red_zero_run_vm
+	tp_red_log_etape_0
+	tp_red_log_etape_1
+	tp_red_log_etape_2
+	tp_red_log_etape_3
+	tp_red_log_etape_4
+	tp_red_log_etape_5
+	tp_red_log_retour_menu
 }
 
 
@@ -30,14 +38,14 @@ tp_red_zero_CLEAR_BANNIERE(){
 
 tp_red_zero_run_vm(){
 	echo "[~] Décompression de la VM vulnérable\n"
-	if [ ! -e ../VM/vm_red_log.zip ]
+	if [ ! -e ../VM/vm_red_zero.zip ]
 	then
-		#wget -o ../VM/vm_red_log.zip LIEN
+		#wget -o ../VM/vm_red_zero.zip LIEN
 	fi
-	#unzip ../VM/vm_red_log.zip
+	#unzip ../VM/vm_red_zero.zip
 	
 	echo "[~] Lancement de la VM vulnérable"
-	#vmrun -T ws start../VM/vm_red_log/vm_red_log.vmx
+	#vmrun -T ws start../VM/vm_red_zero/vm_red_zero.vmx
 
 	echo -e "\n\n"
 }
