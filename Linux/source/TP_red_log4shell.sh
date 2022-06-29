@@ -141,7 +141,7 @@ tp_red_log_etape_3(){
 	echo "------------------------------------------------------------------"
 
 	echo "
-A ce stade, normalement, vous avez trouvé l'adresse IP de la machine victime, que la technologie utilisé est 'Apache Solr' sur le port '8983'
+A ce stade, normalement, vous avez trouvé l'adresse IP de la machine victime, que la technologie utilisé est 'Apache Solr' sur le port '80'
 La version d'Apache Solr est '8.11.0'.
 La version de Java utilisé '1.8.0_181'.
 
@@ -157,8 +157,6 @@ Maintenant grâce à internet, il faut chercher s'il existe des vulnérabilités
 	read -p "Lorsque que vous pensez avoir trouver la méthode d'exploitation. Appuyer sur une touche pour continuer avec l'étape 4..."
 	echo -e "\n"
 
-	#Recherche sur internet des potentiels outils, l'application a des failles connu bien particuliere ?
-
 }
 
 tp_red_log_etape_4(){
@@ -172,7 +170,16 @@ Lors des recherches, on remarque que l'application qu'on utilise est vulnérable
 Pour exploiter la vulnérabilité, il faut trouver l'URI où l'on peut intéragir avec une entrée utilisateur.
 Après avoir trouvé le champs que l'on peut contrôler, il faut injecter une charge utile simple pour vérifier si la vulnérabilité est présente.
 Ensuite, lorsqu'on a détecté et confirmé l'endroit où la charge utile doit être positionné, il faut exploiter correctement la vulnérabilité afin d'obtenir un accès shell.
+"
+	read -p "Appuyer sur une touche pour obtenir un indice si vous avez des difficultés à exploiter la vulnérabilité..."
 
+	echo "
+Indice : 
+	- Un WAF est peut-être présent
+	- Il sera peut-être nécessaire de trouver des moyens de contournement afin d'exploiter la vulnérabilité.
+"
+
+	echo "
 Lorsqu'on obtient un accès shell, un drapeau est disponible dans le /home du l'utilisateur.
 "
 
