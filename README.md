@@ -3,7 +3,7 @@ Développement d'un outil de veille pour s'améliorer en attaque et en défense 
 
 ##Pré-requis
 Il est nécessaire d'avoir VMware Workstation.
-Il est nécessaire d'avoir minimum les caractèristiques suivantes : 
+Il est nécessaire d'avoir minimum les caractéristiques suivantes : 
  - 8 GB de RAM
  - Processeur i5 7th
  - 50 GB de place disponibles sur votre Host
