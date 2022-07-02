@@ -119,7 +119,7 @@ tp_red_log_etape_2(){
 Enfin de trouver la ou les vulnérabilités à exploiter, il faut explorer la machine victime et obtenir un maximum d'informations dessus.
 La méthodologie est donc,
 	- dans un premier temps, de scanner le réseau afin de trouver la machine victime.
-	- dans un deuxième temps, de scanner les ports ouverts ainsi que les services qui tournent.
+	- dans un deuxième temps, de scanner les ports ouverts ainsi que les services et leur version qui tournent.
 	- dans un troisième temps, de vérifier si des applications sont actives
 	- dans un quatième temps, d'explorer si c'est des vulnérabilités sont disponibles sur ces applications.
 
