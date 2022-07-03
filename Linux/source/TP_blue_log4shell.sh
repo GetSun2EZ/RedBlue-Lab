@@ -66,11 +66,11 @@ Un score aussi haut est dû au fait que la vulnérabilité permet à l'attaquant
 
 	echo "
 La vulnérabilité se base sur le framework Log4J développé par Apache Software Foundation qui permet de gérer toutes les journalisations des applications Java.
-Ce framework est tellement utile qu'il est utilisé dans la plupart des logiciels Java. Beaucoup de bibliothèque Java utilise également ce framework. Cette utilisation massive a permis à Log4Shell d'être exploitée à grande échelle.
+Ce framework est tellement utile qu'il est utilisé dans la plupart des logiciels Java. Beaucoup de bibliothèques Java utilisent également ce framework. Cette utilisation massive a permis à Log4Shell d'être exploitée à grande échelle.
 Dans les versions du framework vulnérables à Log4Shell, il était possible de faire des requêtes JNDI qui n'étaient pas vérifiées et donc de faire appel à des ressources externes à l'aide des protocoles LDAP, DNS et RMI par exemple.
 "
 
-	read -p "Appuyer sur une touche pour continue avec l'étape 2..."
+	read -p "Appuyer sur une touche pour continuer avec l'étape 2..."
 	echo -e "\n"
 
 }
@@ -85,7 +85,7 @@ tp_blue_log_etape_2(){
 
 	- Quels sont les services utilisés sur le serveur, quelles sont leurs versions ?
 
-	- Où sont stockés les logs qui pourraient servir a retracer l'attaque pour ces services ?
+	- Où sont stockés les journaux qui pourraient servir à retracer l'attaque pour ces services ?
 	"
 	
 	read -p "Appuyer sur une touche pour continuer..."
@@ -100,11 +100,11 @@ tp_blue_log_etape_3(){
 	echo "Nous pouvons tout d'abord constater que la technologie utilisée est 'Apache Solr' sur le port '8983', que sa version est '8.11.0', et que la version de Java utilisée par celui-ci est la '1.8.0_181'. 
 	On peut également constater que le site n'est joignable qu'en local, et qu'un proxy est défini sur le port 80 qui redirige vers le Solr.
 
-	Pour les sources de journaux, on peut constater en regardant la page d'accueil de Solr, que ses logs sont stockés dans /var/solr/logs selon la variable Dsolr.log.dir. Nous pouvons aussi voir les logs d'apache2 pour le proxy, dans /var/log/apache2/{access/error}.log
+	Pour les sources de journaux, on peut constater en regardant la page d'accueil de Solr, que ses journaux sont stockés dans /var/solr/logs selon la variable Dsolr.log.dir. Nous pouvons aussi voir les journaux d'Apache2 pour le proxy, dans /var/log/apache2/{access/error}.log
 
 	Lorsque les sources de journaux sont trouvés, il faut alors y dénicher les éléments pertinents qui pourraient dévoiler une attaque.
 
-	Il faut donc trouver un maximum d'informations qui soit liées a l'attaquant, telles que les commandes utilisées, la période de temps dans laquelle est survenue l'attaque, les adresses IP utilisées par celui-ci.
+	Il faut donc trouver un maximum d'informations qui soit liées à l'attaquant, telles que les commandes utilisées, la période de temps dans laquelle est survenue l'attaque, les adresses IP utilisées par celui-ci.
 	"
 
 	read -p "Appuyer sur une touche pour continuer..."
@@ -118,27 +118,27 @@ tp_blue_log_etape_4(){
 
 	echo " Remédiation de la vulnérabilité log4j
 
-	On peut apercevoir dans les logs Solr ou encore dans ceux d'apache, des requetes jndi qui ont été faites vers le serveur de l'attaquant, qui ensuite redirige le flux vers un serveur http pour récupérer la charge utile. Nous pouvons donc récupérer l'heure, ainsi que l'adresse IP et le contenu de la charge utile de la machine attaquante.
-	On voit également que la page vulnérable exploitée par l'attaquant est /admin/cores, car elle permet d'accéder a l'API jndi.
-	On peut voir ensuite que les règles du proxy WAF on permis de bloquer les commandes jndi classique, mais derrière l'attaquant arrive a contourner cela avec de l'obfuscation.
+	On peut apercevoir dans les journaux Solr ou encore dans ceux d'apache, des requêtes JNDI qui ont été faites vers le serveur de l'attaquant, qui ensuite redirige le flux vers un serveur http pour récupérer la charge utile. Nous pouvons donc récupérer l'heure, ainsi que l'adresse IP et le contenu de la charge utile de la machine attaquante.
+	On voit également que la page vulnérable exploitée par l'attaquant est /admin/cores, car elle permet d'accéder à l'API jndi.
+	On peut voir ensuite que les règles du proxy WAF ont permis de bloquer les commandes JNDI classique, mais derrière l'attaquant arrive à contourner cela avec de l'obfuscation.
 	
 
-	Afin de remédier a cette faille de sécurité critique, de nombreuses options s'offre a nous :
+	Afin de remédier à cette faille de sécurité critique, de nombreuses options s'offre a nous :
 
-	- Mettre a jour Solr vers la version 8.11.1, qui corrige la faille de log4j en incluant une version plus récente(>=2.16.0), ou mettre a jour la version de log4j manuellement vers une version corrigée.
+	- Mettre à jour Solr vers la version 8.11.1, qui corrige la faille de log4j en incluant une version plus récente(>=2.16.0), ou mettre à jour la version de log4j manuellement vers une version corrigée.
 
-	- Pour éviter l'obfuscation, implémenter des règles de securité plus strictes dans l'analyse des données envoyées.
+	- Pour éviter l'obfuscation, implémenter des règles de sécurité plus strictes dans l'analyse des données envoyées.
 	"
 
 	read -p "Appuyer sur une touche pour continuer..."
 
 	echo " Remédiation générale de sécurité / Durcissement
 
-	La machine, hormis avec sa version obsolète de java permettant d'exploiter log4shell, possède également plusieurs failles de sécurité plus courantes.
+	La machine, hormis avec sa version obsolète de java permettant d'exploiter Log4Shell, possède également plusieurs failles de sécurité plus courantes.
 
 	On peut par exemple ajouter une politique de mot de passe et modifier celui de l'utilisateur getsun2ez, bien trop explicite(user=mdp).
 
-	De plus le WAF possède une règle assez basique, qui est facile a contourner. Il faudrait donc mieux exploiter la puissance de celui-ci avec des règles plus complexes (voir notamment https://github.com/coreruleset/coreruleset).
+	De plus, le WAF possède une règle assez basique, qui est facile à contourner. Il faudrait donc mieux exploiter la puissance de celui-ci avec des règles plus complexes (voir notamment https://github.com/coreruleset/coreruleset).
 	"
 
 	read -p "Appuyer sur une touche pour continuer..."
@@ -152,4 +152,3 @@ tp_blue_log_retour_menu(){
 	read -p "Appuyer sur une touche pour retourner au menu..."
 
 }
-
