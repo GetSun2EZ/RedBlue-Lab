@@ -58,9 +58,9 @@ tp_red_log_etape_1(){
 
 	echo "
 La vulnérabilité Log4Shell a été découverte en fin 2021 par l'équipe de sécurité cloud d'Alibaba.
-Le scrore CVSS de cette vulnérabilité est de 10 : CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H
+Le score CVSS de cette vulnérabilité est de 10 : CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H
 
-Un score aussi haut est dûe au fait que la vulnérabilité permet à l'attaquant d'exécuter facilement du code arbitraire sur la machine distance, sans s'authentifier. C'est une RCE.
+Un score aussi haut est dû au fait que la vulnérabilité permet à l'attaquant d'exécuter facilement du code arbitraire sur la machine distance, sans s'authentifier. C'est une RCE.
 "
 	read -p "Appuyer sur une touche pour continuer..."
 
