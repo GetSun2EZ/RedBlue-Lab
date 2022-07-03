@@ -66,8 +66,8 @@ Un score aussi haut est dû au fait que la vulnérabilité permet à l'attaquant
 
 	echo "
 La vulnérabilité se base sur le framework Log4J développé par Apache Software Foundation qui permet de gérer toutes les journalisations des applications Java.
-Ce framework est tellement utile qu'il est utilisé dans la plupart des logiciels Java. Beaucoup de bibliothèque Java utilise également ce framework. Cette utilisation massive a permit à log4Shell d'etre exploitée à grande échelle.
-Dans les versions du framework vulnérables à Log4Shell, il était possible de faire des rêquetes LDAP, DNS, RMI et JNDI qui n'était pas vérifié et donc de faire appel à des ressources externes.
+Ce framework est tellement utile qu'il est utilisé dans la plupart des logiciels Java. Beaucoup de bibliothèque Java utilise également ce framework. Cette utilisation massive a permis à Log4Shell d'être exploitée à grande échelle.
+Dans les versions du framework vulnérables à Log4Shell, il était possible de faire des requêtes JNDI qui n'étaient pas vérifiées et donc de faire appel à des ressources externes à l'aide des protocoles LDAP, DNS et RMI par exemple.
 "
 
 	read -p "Appuyer sur une touche pour continue avec l'étape 2..."
@@ -104,7 +104,7 @@ tp_blue_log_etape_3(){
 
 	Lorsque les sources de logs sont trouvés, il faut alors y dénicher les éléments pertinents qui pourrais dévoiler une attaque.
 
-	Il faut donc trouver un maximum d'informations qui soit liées a l'attaquant, tel que les commandes utilisées, la période de temps dans laquelle est survenue l'attaque, les IP utilisés par celui-ci.
+	Il faut donc trouver un maximum d'informations qui soit liées a l'attaquant, telles que les commandes utilisées, la période de temps dans laquelle est survenue l'attaque, les adresses IP utilisées par celui-ci.
 	"
 
 	read -p "Appuyer sur une touche pour continuer..."
@@ -118,14 +118,14 @@ tp_blue_log_etape_4(){
 
 	echo " Remédiation de la vulnérabilité log4j
 
-	On peut apercevoir dans les logs Solr ou encore dans ceux d'apache, des requetes jndi qui ont été faites vers le serveur de l'attaquant, qui ensuite redirige le flux vers un serveur http pour récupérer l'exploit. Nous pouvons donc récupérer l'heure, ainsi que l'ip et le nom de l'exploit de la machine attaquante.
+	On peut apercevoir dans les logs Solr ou encore dans ceux d'apache, des requetes jndi qui ont été faites vers le serveur de l'attaquant, qui ensuite redirige le flux vers un serveur http pour récupérer la charge utile. Nous pouvons donc récupérer l'heure, ainsi que l'adresse IP et le contenu de la charge utile de la machine attaquante.
 	On voit également que la page vulnérable exploitée par l'attaquant est /admin/cores, car elle permet d'accéder a l'API jndi.
 	On peut voir ensuite que les règles du proxy WAF on permis de bloquer les commandes jndi classique, mais derrière l'attaquant arrive a contourner cela avec de l'obfuscation.
 	
 
 	Afin de remédier a cette faille de sécurité critique, de nombreuses options s'offre a nous :
 
-	- Mettre a jour Solr vers la version 8.11.1, qui corrige la faille de log4j en incluant une version plus récente(>=2.16.0), ou mettre a jour la version de log4j manuellement vers une version patchée.
+	- Mettre a jour Solr vers la version 8.11.1, qui corrige la faille de log4j en incluant une version plus récente(>=2.16.0), ou mettre a jour la version de log4j manuellement vers une version corrigée.
 
 	- Pour éviter l'obfuscation, implémenter des règles de securité plus strictes dans l'analyse des données envoyées.
 	"
