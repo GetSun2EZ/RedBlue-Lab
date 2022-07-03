@@ -97,12 +97,12 @@ tp_blue_log_etape_3(){
 	echo " Etape 3 - Recherche d'IOCs"
 	echo "------------------------------------------------------------------"
 
-	echo "Nous pouvons tout d'abord constater que la technologie utilisée est 'Apache Solr' sur le port '8983', que sa version est '8.11.0', et que la version de Java utilisé par celui-ci est la '1.8.0_181'. 
+	echo "Nous pouvons tout d'abord constater que la technologie utilisée est 'Apache Solr' sur le port '8983', que sa version est '8.11.0', et que la version de Java utilisée par celui-ci est la '1.8.0_181'. 
 	On peut également constater que le site n'est joignable qu'en local, et qu'un proxy est défini sur le port 80 qui redirige vers le Solr.
 
-	Pour les sources de logs, on peut constater en regardant la page d'accueil de Solr, que ses logs sont stockés dans /var/solr/logs selon la variable Dsolr.log.dir. Nous pouvons aussi voir les logs d'apache2 pour le proxy, dans /var/log/apache2/{access/error}.log
+	Pour les sources de journaux, on peut constater en regardant la page d'accueil de Solr, que ses logs sont stockés dans /var/solr/logs selon la variable Dsolr.log.dir. Nous pouvons aussi voir les logs d'apache2 pour le proxy, dans /var/log/apache2/{access/error}.log
 
-	Lorsque les sources de logs sont trouvés, il faut alors y dénicher les éléments pertinents qui pourrais dévoiler une attaque.
+	Lorsque les sources de journaux sont trouvés, il faut alors y dénicher les éléments pertinents qui pourraient dévoiler une attaque.
 
 	Il faut donc trouver un maximum d'informations qui soit liées a l'attaquant, telles que les commandes utilisées, la période de temps dans laquelle est survenue l'attaque, les adresses IP utilisées par celui-ci.
 	"
