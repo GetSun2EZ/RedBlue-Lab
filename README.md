@@ -17,8 +17,8 @@ Il est nécessaire d'avoir minimum les caractéristiques suivantes :
 `bash Linux/menu.sh`
 
 Sélectionnez le TP que vous souhaitez. Une machine virtuelle sera lancée. Le TP peut commencer.
-Tout le TP sera afficher directement dans le terminal.
+Tout le TP sera affiché directement dans le terminal.
 A la fin du TP, la machine virtuelle s'arretera.
 
-### Solution des travaux pratiques
-Les solution aux TP sont disponibles en MarkDown dans le dossier Linux/solution.
+### Solutions des travaux pratiques
+Les solutions aux TP sont disponibles en MarkDown dans le dossier Linux/solution.
