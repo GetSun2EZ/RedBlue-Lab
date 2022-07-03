@@ -97,14 +97,14 @@ tp_blue_log_etape_3(){
 	echo " Etape 3 - Recherche d'IOCs"
 	echo "------------------------------------------------------------------"
 
-	echo "Nous pouvons tout d'abord constater que la technologie utilisé est 'Apache Solr' sur le port '8983', que sa version est '8.11.0', et que la version de Java utilisé par celui-ci est la '1.8.0_181'. 
+	echo "Nous pouvons tout d'abord constater que la technologie utilisée est 'Apache Solr' sur le port '8983', que sa version est '8.11.0', et que la version de Java utilisé par celui-ci est la '1.8.0_181'. 
 	On peut également constater que le site n'est joignable qu'en local, et qu'un proxy est défini sur le port 80 qui redirige vers le Solr.
 
 	Pour les sources de logs, on peut constater en regardant la page d'accueil de Solr, que ses logs sont stockés dans /var/solr/logs selon la variable Dsolr.log.dir. Nous pouvons aussi voir les logs d'apache2 pour le proxy, dans /var/log/apache2/{access/error}.log
 
 	Lorsque les sources de logs sont trouvés, il faut alors y dénicher les éléments pertinents qui pourrais dévoiler une attaque.
 
-	Il faut donc trouver un maximum d'informations qui soit liés a l'attaquant, tel que les commandes utilisés, la période de temps dans laquelle est survenue l'attaque, les IP utilisés par celui-ci.
+	Il faut donc trouver un maximum d'informations qui soit liées a l'attaquant, tel que les commandes utilisées, la période de temps dans laquelle est survenue l'attaque, les IP utilisés par celui-ci.
 	"
 
 	read -p "Appuyer sur une touche pour continuer..."
@@ -125,20 +125,20 @@ tp_blue_log_etape_4(){
 
 	Afin de remédier a cette faille de sécurité critique, de nombreuses options s'offre a nous :
 
-	- Mettre a jour Solr vers la version 8.11.1, qui patche la faille de log4j en incluant une version plus récente(>=2.16.0), ou mettre a jour la version de log4j manuellement vers une version patchée.
+	- Mettre a jour Solr vers la version 8.11.1, qui corrige la faille de log4j en incluant une version plus récente(>=2.16.0), ou mettre a jour la version de log4j manuellement vers une version patchée.
 
-	- Pour éviter l'obfuscation, implémenter des règles de securité plus stricts dans l'analyse des données envoyés.
+	- Pour éviter l'obfuscation, implémenter des règles de securité plus strictes dans l'analyse des données envoyées.
 	"
 
 	read -p "Appuyer sur une touche pour continuer..."
 
-	echo " Remédiation générales de sécurité / Hardening
+	echo " Remédiation générale de sécurité / Durcissement
 
 	La machine, hormis avec sa version obsolète de java permettant d'exploiter log4shell, possède également plusieurs failles de sécurité plus courantes.
 
 	On peut par exemple ajouter une politique de mot de passe et modifier celui de l'utilisateur getsun2ez, bien trop explicite(user=mdp).
 
-	De plus le WAF possède une règle assez basique, qui est facile a contourner. Il faudrais donc mieux exploiter la puissance de celui-ci avec des règles plus complexes (voir notamment https://github.com/coreruleset/coreruleset).
+	De plus le WAF possède une règle assez basique, qui est facile a contourner. Il faudrait donc mieux exploiter la puissance de celui-ci avec des règles plus complexes (voir notamment https://github.com/coreruleset/coreruleset).
 	"
 
 	read -p "Appuyer sur une touche pour continuer..."
