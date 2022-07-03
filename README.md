@@ -12,13 +12,13 @@ Il est nécessaire d'avoir minimum les caractéristiques suivantes :
 ### Lancement du projet
 `git clone https://github.com/GetSun2EZ/RedBlue-Lab.git`
 
-`cd RedBlue-Lab`
+`cd RedBlue-Lab/Linux`
 
 `bash Linux/menu.sh`
 
 Sélectionnez le TP que vous souhaitez. Une machine virtuelle sera lancée. Le TP peut commencer.
 Tout le TP sera affiché directement dans le terminal.
-A la fin du TP, la machine virtuelle s'arretera.
+A la fin du TP, la machine virtuelle s'arrêtera.
 
 ### Solutions des travaux pratiques
 Les solutions aux TP sont disponibles en MarkDown dans le dossier Linux/solution.
