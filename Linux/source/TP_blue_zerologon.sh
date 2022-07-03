@@ -30,7 +30,7 @@ tp_blue_zero_CLEAR_BANNIERE(){
 	echo "#                                                               #"
 	echo "#################################################################"
 	echo "------------------------------------------------------------------"
-	echo " Mise en pratique sur la vulnérabilité zerologon en blue Team"
+	echo " Mise en pratique sur la vulnérabilité Zerologon en blue Team"
 	echo "------------------------------------------------------------------"
 	echo -e "\n"
 }
@@ -71,13 +71,13 @@ L'attaque se concentre principalement sur une mauvaise implémentation de la cry
 
 Lorsqu'un attaquant envoie un message contenant uniquement des zéros avec l'IV de zéro, il y a 1 chance sur 256 que le texte chiffré soit zéro.
 	
-De plus, des tentatives répétés sur un compte utilisateur finira par bloquer le compte, mais ce n'est pas le cas des comptes machines qui possèdent un mot de passe suffisamment grand pour éviter le bruteforce, et qui ne sont pas censés être utilisé.
+De plus, des tentatives répétés sur un compte utilisateur finissent par bloquer le compte, mais ce n'est pas le cas des comptes machines qui possèdent un mot de passe suffisamment grand pour éviter les attaques par brute-force, et qui ne sont pas censés être utilisés.
 	
-L'objectif est donc de se connecter au compte machine du controleur de domaine en bruteforcant avec des zéros l'authentification, et ensuite de définir un mot de passe nul.
+L'objectif est donc de se connecter au compte machine du contrôleur de domaine avec une attaque par brute-force avec des zéros l'authentification, et ensuite de définir un mot de passe nul.
 On peut ensuite utiliser les droits liés au compte machine pour passer d'administrateur du domaine.
 	"
 
-	read -p "Appuyer sur une touche pour continue avec l'étape 2..."
+	read -p "Appuyer sur une touche pour continuer avec l'étape 2..."
 	echo -e "\n"
 
 }
@@ -88,7 +88,7 @@ tp_blue_zero_etape_2(){
 	echo "------------------------------------------------------------------"
 
 	echo "
-Les identifiants pour se connecter a la machine sont RBLAB\Administrateur:Imanadministrator123;.
+Les identifiants pour se connecter à la machine sont 'RBLAB\Administrateur:Imanadministrator123;'.
 Tout d'abord, il faut définir la surface attaquée :
 	- Quels sont les services utilisés sur le serveur, quelles sont leurs versions ?
 	- Où sont stockés les journaux qui pourraient servir à retracer l'attaque pour ces services ?
@@ -106,7 +106,7 @@ tp_blue_zero_etape_3(){
 	echo "
 Nous pouvons tout d'abord constater que la technologie utilisée est un Windows Server 2016.
 
-Pour les sources de journaux, on sait que les logs windows peuvent être visible dans l'observateur d'évenements. Les logs qui nous interessent sont donc les logs de sécurité.
+Pour les sources de journaux, on sait que les journaux Windows peuvent être visibles dans l'observateur d'événements. Les journaux qui nous intéressent sont donc les journaux de sécurité.
 
 Lorsque les sources de journaux sont trouvés, il faut alors y dénicher les éléments pertinents qui pourraient dévoiler une attaque.
 
@@ -125,12 +125,12 @@ tp_blue_zero_etape_4(){
 	echo "------------------------------------------------------------------"
 
 	echo "
-Suivant le schéma de l'attaque zerologon, on sait que l'attaquant effectue une connexion avec le compte machine du contrôleur de domaine, soit WIN-KSJNGF0GUAR$.
+Suivant le schéma de l'attaque Zerologon, on sait que l'attaquant effectue une connexion avec le compte machine du contrôleur de domaine, soit WIN-KSJNGF0GUAR$.
 
 Il faut donc rechercher les journaux de connexion réussis (event id 4624) concernant ce compte, qui ne sont pas en local sur la machine.
 	
-On sait également que dans l'attaque, le mot de passe est changé pour être mis à NULL et permettre la connexion au compte. On peut alors également repérer un journal de réinitialisation de mot de passe, toujours sur le même compte. L'Event Id correspondant est 4742, et doit être proche de la connexion réussie.
-Cela permet notamment de récuperer l'IP depuis laquelle l'attaquant a agit.
+On sait également que dans l'attaque, le mot de passe est changé pour être mis à NULL et permettre la connexion au compte. On peut également repérer un journal de réinitialisation de mot de passe, toujours sur le même compte. L'Event Id correspondant est 4742, et doit être proche de la connexion réussie.
+Cela permet notamment de récupérer l'IP depuis laquelle l'attaquant a agit.
 	"
 
 	read -p "Appuyer sur une touche pour continuer..."
@@ -154,4 +154,3 @@ tp_blue_zero_retour_menu(){
 	read -p "Appuyer sur une touche pour retourner au menu..."
 
 }
-
