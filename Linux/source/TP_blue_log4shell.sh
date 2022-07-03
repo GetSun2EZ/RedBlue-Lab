@@ -83,7 +83,7 @@ tp_blue_log_etape_2(){
 	echo "Les identifiants pour se connecter a la machine sont getsun2ez:getsun2ez.
 	Tout d'abord, il faut définir la surface attaquée :
 
-	- Quels sont les services utilisés sur le serveur, quels sont leurs versions ?
+	- Quels sont les services utilisés sur le serveur, quelles sont leurs versions ?
 
 	- Ou sont stockés les logs qui pourraient servir a retracer l'attaque pour ces services ?
 	"
