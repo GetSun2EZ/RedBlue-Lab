@@ -49,7 +49,7 @@ def connexion_nrpc(dc_primary_name, dc_ip, dc_computer_name, dc_account_name, dc
   try:
     server_auth = nrpc.hNetrServerAuthenticate3(rpc_con, dc_primary_name + '\x00', dc_account_name+'\x00', nrpc.NETLOGON_SECURE_CHANNEL_TYPE.ServerSecureChannel, dc_computer_name + '\x00', client_credential, negotiate_flags)
     sessionKey = nrpc.ComputeSessionKeyAES(None,b'\x00'*8, serverChallenge, unhexlify("31d6cfe0d16ae931b73c59d7e0c089c0"))
-
+    
     try:
       nrpc.NetrServerPasswordSetResponse = NetrServerPasswordSetResponse
       nrpc.OPNUMS[6] = (NetrServerPasswordSet, nrpc.NetrServerPasswordSetResponse)
