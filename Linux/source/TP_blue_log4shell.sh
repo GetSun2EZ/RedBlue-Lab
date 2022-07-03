@@ -85,7 +85,7 @@ tp_blue_log_etape_2(){
 
 	- Quels sont les services utilisés sur le serveur, quelles sont leurs versions ?
 
-	- Ou sont stockés les logs qui pourraient servir a retracer l'attaque pour ces services ?
+	- Où sont stockés les logs qui pourraient servir a retracer l'attaque pour ces services ?
 	"
 	
 	read -p "Appuyer sur une touche pour continuer..."
