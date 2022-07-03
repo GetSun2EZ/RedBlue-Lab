@@ -8,15 +8,15 @@
 
 
 tp_red_zero_main(){
-        tp_red_zero_CLEAR_BANNIERE
+tp_red_zero_CLEAR_BANNIERE
 	tp_red_zero_run_vm
-	tp_red_log_etape_0
-	tp_red_log_etape_1
-	tp_red_log_etape_2
-	tp_red_log_etape_3
-	tp_red_log_etape_4
-	tp_red_log_etape_5
-	tp_red_log_retour_menu
+	tp_red_zero_etape_0
+	tp_red_zero_etape_1
+	tp_red_zero_etape_2
+	tp_red_zero_etape_3
+	tp_red_zero_etape_4
+	tp_red_zero_etape_5
+	tp_red_zero_retour_menu
 }
 
 
@@ -50,28 +50,7 @@ tp_red_zero_run_vm(){
 	echo -e "\n\n"
 }
 
-tp_red_log_etape_0(){
-	echo "------------------------------------------------------------------"
-	echo " Etape 0 - Prérequis sur la machine attaquante"
-	echo "------------------------------------------------------------------"
-
-	echo "Dans cette étape, il sera nécessaire d'obtenir certains paquets et outils sur votre machine servant à attaquer."
-	echo "Le(s) paquet(s) suivant(s) sont à installer : nmap, python3"
-	echo -e "\n"
-
-	read -p "Appuyer sur une touche pour continuer..."
-	echo -e "\n"
-
-	echo "L'outil impacket est recommandé et peut-etre obtenu avec le lien suivant : ' https://github.com/SecureAuthCorp/impacket '"
-	echo "La documentation Microsoft est très fortement recommandé : 'https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-nrpc/ff8f970f-3e37-40f7-bd4b-af7336e4792f'"
-	echo -e "\n"
-
-	read -p "Appuyer sur une touche pour continuer avec l'étape 1..."
-	echo -e "\n"
-
-}
-
-tp_red_log_etape_1(){
+tp_blue_zero_etape_1(){
 	echo "------------------------------------------------------------------"
 	echo " Etape 1 - Explication de la vulnérabilité"
 	echo "------------------------------------------------------------------"
@@ -79,39 +58,43 @@ tp_red_log_etape_1(){
 	echo "
 Le 11 août 2020, Microsoft publie une mise à jour de sécurité comprenant un correctif pour une vulnérabilité critique du protocole NETLOGON (CVE-2020-1472) découverte par les chercheurs de Secura. 
 La vulnérabilité possède un score CVSS de 10 : CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H
+
 Cette vulnérabilité est critique car elle permet à un attaquant non authentifié disposant seulement d'un accès réseau à un contrôleur de domaine, d'établir une session Netlogon vulnérable et éventuellement d'obtenir des privilèges d'administrateur de domaine. 
-"
+	"
 	read -p "Appuyer sur une touche pour continuer..."
 
 	echo "
 Cette vulnérabilité exploite une faille cryptographique dans le protocole MS-NRPC (Active Directory Netlogon Remote Protocol) de Microsoft. Elle permet aux utilisateurs de se connecter à des serveurs qui utilisent NT LAN Manager (NTLM).
-L'attaque se concentre principalement sur une mauvaise implémentation de la cryptographie. Pour être plus précis, Microsoft a choisi d'utiliser AES-CFB8 pour une fonction appelée ComputeNetlogonCredential, ce qui est normalement sécurisé, sauf que le vecteur d'initialisation a été défini sur une valeur fixe de 16 octets de zéro.
-Lorsqu'un attaquant envoie un message contenant uniquement des zéros avec l'IV de zéro, il y a 1 chance sur 256 que le texte chiffré soit zéro.
-  
-De plus, des tentatives répétés sur un compte utilisateur finira par bloquer le compte, mais ce n'est pas le cas des comptes machines qui possèdent un mot de passe suffisamment grand pour éviter le bruteforce, et qui ne sont pas censés être utilisé.
-  
-L'objectif est donc de se connecter au compte machine du controleur de domaine en bruteforcant avec des zéros l'authentification, et ensuite de définir un mot de passe nul.
-On peut ensuite utiliser les droits liés au compte machine pour passer d'administrateur du domaine.
-"
 
-	read -p "Appuyer sur une touche pour continue avec l'étape 2..."
+L'attaque se concentre principalement sur une mauvaise implémentation de la cryptographie. Pour être plus précis, Microsoft a choisi d'utiliser AES-CFB8 pour une fonction appelée ComputeNetlogonCredential, ce qui est normalement sécurisé, sauf que le vecteur d'initialisation a été défini sur une valeur fixe de 16 octets de zéro.
+
+Lorsqu'un attaquant envoie un message contenant uniquement des zéros avec l'IV de zéro, il y a 1 chance sur 256 que le texte chiffré soit zéro.
+	
+De plus, des tentatives répétés sur un compte utilisateur finissent par bloquer le compte, mais ce n'est pas le cas des comptes machines qui possèdent un mot de passe suffisamment grand pour éviter les attaques par brute-force, et qui ne sont pas censés être utilisés.
+	
+L'objectif est donc de se connecter au compte machine du contrôleur de domaine avec une attaque par brute-force avec des zéros l'authentification, et ensuite de définir un mot de passe nul.
+On peut ensuite utiliser les droits liés au compte machine pour passer d'administrateur du domaine.
+	"
+
+	read -p "Appuyer sur une touche pour continuer avec l'étape 2..."
 	echo -e "\n"
 
 }
 
-tp_red_log_etape_2(){
+
+tp_red_zero_etape_2(){
 	echo "------------------------------------------------------------------"
 	echo " Etape 2 - Exploration de la machine vulnérable"
 	echo "------------------------------------------------------------------"
 
 	echo "
-Enfin de trouver la ou les vulnérabilités à exploiter, il faut explorer la machine victime et obtenir un maximum d'informations dessus.
+Afin de trouver la ou les vulnérabilités à exploiter, il faut explorer la machine victime et obtenir un maximum d'informations dessus.
 La méthodologie est donc,
   - dans un premier temps, de scanner le réseau afin de trouver la machine victime.
-  - dans un deuxieme temps, de scanner les ports ouverts ainsi que les services qui tournent.
+  - dans un deuxième temps, de scanner les ports ouverts ainsi que les services qui tournent.
   - dans un troisième temps, de vérifier si des applications sont actives
-  - dans un quartième temps, d'explorer si c'est des vulnérabilités sont disponibles sur ces applications.
-Il peut être juditieux de prendre des notes pour garder des traces de ses recherches et des trouvailles.
+  - dans un quatrième temps, d'explorer si c'est des vulnérabilités sont disponibles sur ces applications.
+Il peut être judicieux de prendre des notes pour garder des traces de ses recherches et des trouvailles.
 "
 
 	read -p "Lorsque votre exploration est finie. Appuyer sur une touche pour continuer avec l'étape 3..."
@@ -119,7 +102,7 @@ Il peut être juditieux de prendre des notes pour garder des traces de ses reche
 
 }
 
-tp_red_log_etape_3(){
+tp_red_zero_etape_3(){
 	echo "------------------------------------------------------------------"
 	echo " Etape 3 - Recherche d'exploitation"
 	echo "------------------------------------------------------------------"
@@ -155,7 +138,7 @@ Afin de trouver la vulnérabilité à exploiter, fiez-vous aux informations qu'i
 	read -p "Appuyer sur une touche pour continuer..."
 
 	echo "
-Au vue du nom du TP, il s'agit sûrement de la vulnérabilité ZeroLogon qu'il va falloir exploiter.
+Au vu du nom du TP, il s'agit sûrement de la vulnérabilité ZeroLogon qu'il va falloir exploiter.
 Pour vérifier si notre hypothèse est juste, il est possible d'écrire un programme python.
 
 Ce programme va tester la première partie de la vulnérabilité, celle où l'on va essayer de s'authentifier. Dans ce programme, il n'est pas encore nécessaire de modifier le mot de passe. Si l'authentification fonctionne, alors le serveur Windows est vulnérable.
@@ -168,13 +151,13 @@ Pour écrire ce programme, l'outil impacket peut se révéler extrêmement utile
 
 }
 
-tp_red_log_etape_4(){
+tp_red_zero_etape_4(){
 	echo "------------------------------------------------------------------"
 	echo " Etape 4 - Exploitation, obtention des Condensats et Accès Administrateur"
 	echo "------------------------------------------------------------------"
 
 	echo "
-Si vous n'avez pas réussi à réaliser le programme python pour déterminer si l'attaque ZeroLogon est faisable, la programme est disponibles dans le dossier 'Linux/solutions/script_detection_zerologon.py'.
+Si vous n'avez pas réussi à réaliser le programme python pour déterminer si l'attaque ZeroLogon est faisable, le programme est disponible dans le dossier 'Linux/solutions/script_detection_zerologon.py'.
 "
 
 	read -p "Appuyer sur une touche pour continuer..."
@@ -187,9 +170,9 @@ Dans le script de détection, nous vérifions uniquement s'il est possible de s'
 	read -p "Appuyer sur une touche pour continuer..."
 
 	echo "
-Si vous n'avez pas réussi à réaliser le programme python pour déterminer si l'attaque ZeroLogon est faisable, la programme est disponibles dans le dossier 'Linux/solutions/exploitation_zerologon.py'.
+Si vous n'avez pas réussi à réaliser le programme python pour déterminer si l'attaque ZeroLogon est faisable, le programme est disponible dans le dossier 'Linux/solutions/exploitation_zerologon.py'.
 
-Avec l'outil impacket, un programme python est fourni pour extraire les consendats des comptes, à vous de le trouver.
+Avec l'outil impacket, un programme python est fourni pour extraire les condensats des comptes, à vous de le trouver.
 Lorsque cela est fait, il va être possible de se connecter avec WinRM en Administrateur sur la machine victime. Un programme est aussi disponible dans impacket.
 "
 
@@ -206,33 +189,33 @@ Mais attention, le TP n'est pas tout à fait fini, il faut rétablir l'ancien mo
 	echo -e "\n"
 }
 
-tp_red_log_etape_5(){
+tp_red_zero_etape_5(){
 	echo "------------------------------------------------------------------"
 	echo " Etape 5 - Rétablir l'ancien mot de passe"
 	echo "------------------------------------------------------------------"
 
 	echo "
 Il est possible de rétablir l'ancien mot de passe si le mot de passe est stocké dans le cache de la machine victime. Il va donc falloir le trouver.
-Lorsque vous avez trouver comment obtenir le condensat de l'ancien mot de passe, vous pouvez continuer.
+Lorsque vous avez trouvé comment obtenir le condensat de l'ancien mot de passe, vous pouvez continuer.
 "
 
 	read -p "Appuyer sur une touche pour continuer..."
 
 	echo "
 En utilisant le programme 'secretdump.py' que l'outil impacket fourni et avec l'utilisateur 'Administrateur', il est possible de récupérer plus de condensats qu'avec le compte machine.
-On remarque que dans la section LSA, le condensat de l'ancien mot de passe en présent.
+On remarque que dans la section LSA, le condensat de l'ancien mot de passe est présent.
 
-Maintenant, nous pouvons crée un programme afin de remettre l'ancien mot de passe.
+Maintenant, nous pouvons créer un programme afin de remettre l'ancien mot de passe.
 
 Indice :  - La méthodologie est identique que sur les autres programmes.
-          - La fonction 'NetrServerPasswordSet' doit être crée car elle n'est pas présente dans l'outil impacket.
+          - La fonction 'NetrServerPasswordSet' doit être créée car elle n'est pas présente dans l'outil impacket.
 "
 
 	read -p "Appuyer sur une touche pour continuer..."
 
 	echo "
-Si vous n'avez pas réussi à réaliser le programme python pour déterminer si l'attaque ZeroLogon est faisable, la programme est disponibles dans le dossier 'Linux/solutions/retablissement_password.py'.
-vérifier si le mot de passe a bien été remis en rééxécuter la commande secretdump.py.
+Si vous n'avez pas réussi à réaliser le programme python pour déterminer si l'attaque ZeroLogon est faisable, le programme est disponible dans le dossier 'Linux/solutions/retablissement_password.py'.
+vérifier si le mot de passe a bien été remis en réexécutez la commande secretdump.py.
 
 Félicitations, vous avez terminé le TP.
 "
@@ -240,16 +223,16 @@ Félicitations, vous avez terminé le TP.
 	echo -e "\n"
 }
 
-tp_red_log_retour_menu(){
+tp_red_zero_retour_menu(){
 	echo "------------------------------------------------------------------"
 	echo " Ce TP est maintenant terminé."
 	echo "------------------------------------------------------------------"
 
 	echo -e "[~] Arret de la machine virtuelle\n"
-	vmrun -T ws stop ../VM/vm_red_log/vm_red_log.vmx
+	vmrun -T ws stop ../VM/vm_red_zero/vm_red_zero.vmx
 
 	echo -e "[~] Suppression du dossier de la machine virtuelle\n"
-	rm -dfr ./VM/vm_red_log
+	rm -dfr ./VM/vm_red_zero
 
 	read -p "Appuyer sur une touche pour retourner au menu..."
 }
