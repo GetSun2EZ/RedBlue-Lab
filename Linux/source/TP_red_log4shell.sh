@@ -78,7 +78,7 @@ tp_red_log_etape_0(){
 	read -p "Appuyer sur une touche pour continuer..."
 	echo -e "\n"
 
-	echo "L'outil marshalsec est recommandé et peut-etre obtenu avec le lien suivant : ' https://github.com/mbechler/marshalsec '"
+	echo "L'outil marshalsec est recommandé et peut-être obtenu avec le lien suivant : ' https://github.com/mbechler/marshalsec '"
 	echo -e "\n"
 
 	read -p "Appuyer sur une touche pour continuer avec l'étape 1..."
@@ -93,7 +93,7 @@ tp_red_log_etape_1(){
 
 	echo "
 La vulnérabilité Log4Shell a été découverte en fin 2021 par l'équipe de sécurité cloud d'Alibaba.
-Le scrore CVSS de cette vulnérabilité est de 10 : CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H
+Le score CVSS de cette vulnérabilité est de 10 : CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H
 
 Un score aussi haut est dû au fait que la vulnérabilité permet à l'attaquant d'exécuter du code arbitraire sur la machine distance. C'est une RCE.
 "
@@ -101,8 +101,8 @@ Un score aussi haut est dû au fait que la vulnérabilité permet à l'attaquant
 
 	echo "
 La vulnérabilité se base sur le framework Log4J développé par Apache Software Foundation qui permet de gérer toutes les journalisations des applications Java.
-Ce framework est tellement utile, qu'il est utilisé dans la plupart des logiciels Java. Beaucoup de bibliothèques Java utilise aussi ce framework. Cette utilisation massive a permit à log4Shell d'etre exploitée à grande échelle.
-Dans les versions vulnérables du framework Log4J, il était possible de faire des rêquetes LDAP, DNS, RMI et JNDI qui n'était pas vérifiées et donc de faire appel à des ressources externes.
+Ce framework est tellement utile, qu'il est utilisé dans la plupart des logiciels Java. Beaucoup de bibliothèques Java utilisent aussi ce framework. Cette utilisation massive a permis à log4Shell d'etre exploitée à grande échelle.
+Dans les versions vulnérables du framework Log4J, il était possible de faire des requêtes JNDI qui n'étaient pas vérifiées et donc de faire appel à des ressources externes à l’aide des protocoles LDAP, DNS, RMI par exemple.
 "
 
 	read -p "Appuyer sur une touche pour continuer avec l'étape 2..."
@@ -116,14 +116,14 @@ tp_red_log_etape_2(){
 	echo "------------------------------------------------------------------"
 
 	echo "
-Enfin de trouver la ou les vulnérabilités à exploiter, il faut explorer la machine victime et obtenir un maximum d'informations dessus.
+Afin de trouver la ou les vulnérabilités à exploiter, il faut explorer la machine victime et obtenir un maximum d'informations dessus.
 La méthodologie est donc,
 	- dans un premier temps, de scanner le réseau afin de trouver la machine victime.
 	- dans un deuxième temps, de scanner les ports ouverts ainsi que les services et leur version qui tournent.
 	- dans un troisième temps, de vérifier si des applications sont actives
-	- dans un quatième temps, d'explorer si c'est des vulnérabilités sont disponibles sur ces applications.
+	- dans un quatrième temps, d'explorer si c'est des vulnérabilités sont disponibles sur ces applications.
 
-Il peut être juditieux de prendre des notes pour garder des traces de ses recherches et des trouvailles.
+Il peut être judicieux de prendre des notes pour garder des traces de ses recherches et des trouvailles.
 "
 
 	read -p "Lorsque votre exploration est finie. Appuyer sur une touche pour continuer avec l'étape 3..."
@@ -163,8 +163,8 @@ tp_red_log_etape_4(){
 	echo "
 Lors des recherches, on remarque que l'application qu'on utilise est vulnérable à Log4Shell car Solr est en version 8.11.0 et utilise la version 1.8.0_181 de Java, ce qui est exactement ce qu'il faut pour utiliser la vulnérabilité Log4Shell.
 
-Pour exploiter la vulnérabilité, il faut trouver l'URI où l'on peut intéragir avec une entrée utilisateur.
-Après avoir trouvé le champs que l'on peut contrôler, il faut injecter une charge utile simple pour vérifier si la vulnérabilité est présente.
+Pour exploiter la vulnérabilité, il faut trouver l'URI où l'on peut interagir avec une entrée utilisateur.
+Après avoir trouvé le champ que l'on peut contrôler, il faut injecter une charge utile simple pour vérifier si la vulnérabilité est présente.
 Ensuite, lorsqu'on a détecté et confirmé l'endroit où la charge utile doit être positionné, il faut exploiter correctement la vulnérabilité afin d'obtenir un accès shell.
 "
 	read -p "Appuyer sur une touche pour obtenir un indice si vous avez des difficultés à exploiter la vulnérabilité..."
@@ -191,15 +191,15 @@ Si vous n'arrivez pas à exploiter la vulnérabilité, la solution est disponibl
 
 tp_red_log_etape_5(){
 	echo "------------------------------------------------------------------"
-	echo " Etape 5 - Escalade de privilége et capture du drapeau administrateur"
+	echo " Etape 5 - Escalade de privilège et capture du drapeau administrateur"
 	echo "------------------------------------------------------------------"
 
 	echo "
-A cette étape, vous devriez avoir obtenir le drapeau de l'utilisateur. Le drapeau utilisateur est flag{jndiIsAGoodAPI}.
+A cette étape, vous devriez avoir obtenu le drapeau de l'utilisateur. Le drapeau utilisateur est flag{jndiIsAGoodAPI}.
 
-Pour finir completement le TP, il faut obtenir le drapeau administrateur. Il faut donc trouver un moyen de faire un escalade de privilèges.
+Pour finir complètement le TP, il faut obtenir le drapeau administrateur. Il faut donc trouver un moyen de faire une escalade de privilèges.
 
-Des outils sont très pratiques pour trouver des moyens de faire des escalades de privilèges.
+Ces outils sont très pratiques pour trouver des moyens de faire des escalades de privilèges.
 "
 
 	read -p "Appuyer sur une touche pour continuer..."
