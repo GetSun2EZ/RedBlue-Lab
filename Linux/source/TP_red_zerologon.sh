@@ -4,11 +4,11 @@
 #
 # Créateurs		: D'ARCO Adrien, POUDENS Valentin
 # Date de création 	: 22/03/2022
-# Date de mise à jour 	: 26/03/2022
+# Date de mise à jour 	: 08/07/2022
 
 
 tp_red_zero_main(){
-tp_red_zero_CLEAR_BANNIERE
+	tp_red_zero_CLEAR_BANNIERE
 	tp_red_zero_run_vm
 	tp_red_zero_etape_0
 	tp_red_zero_etape_1
