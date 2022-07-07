@@ -38,12 +38,15 @@ tp_blue_zero_CLEAR_BANNIERE(){
 
 tp_blue_zero_run_vm(){
 
-	echo "[~] Décompression de la VM vulnérable\n"
-	if [ ! -e ../VM/vm_blue_zero.zip ]
+	if [ ! -d ../VM/vm_blue_zero] && [ ! -e ../VM/vm_blue_zero.zip ]
 	then
-		#wget 
+	  wget http://62.212.90.183:9090/vm_blue_zero.zip -O ../VM/vm_blue_zero.zip
+	  unzip ../VM/vm_blue_zero.zip
 	fi
-	#unzip ../VM/vm_blue_zero.zip
+	if [ ! -d ../VM/vm_blue_zero] && [ -e ../VM/vm_blue_zero.zip ]
+	then
+	  unzip ../VM/vm_blue_zero.zip
+	fi
 	
 	echo "[~] Lancement de la VM vulnérable"
 	#vmrun -T ws start../VM/vm_blue_zero/vm_blue_zero.vmx
