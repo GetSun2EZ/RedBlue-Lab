@@ -40,7 +40,7 @@ tp_blue_log_run_vm(){
 
 	if [ ! -d ../VM/vm_blue_log] && [ ! -e ../VM/vm_blue_log.zip ]
 	then
-	  wget http://62.212.90.183:9090/vm_blue_log.zip -O ../VM/vm_blue_log.zip
+	  wget -q --show-progress http://62.212.90.183:9090/vm_blue_log.zip -O ../VM/vm_blue_log.zip
 	  unzip ../VM/vm_blue_log.zip
 	fi
 	if [ ! -d ../VM/vm_blue_log] && [ -e ../VM/vm_blue_log.zip ]
@@ -49,7 +49,7 @@ tp_blue_log_run_vm(){
 	fi
 	
 	echo "[~] Lancement de la VM vulnérable"
-	#vmrun -T ws start../VM/vm_blue_log/vm_blue_log.vmx
+	vmrun -T ws start../VM/vm_blue_log/vm_blue_log.vmx
 
 	echo -e "\n\n"
 }
