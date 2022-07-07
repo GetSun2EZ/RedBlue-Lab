@@ -51,7 +51,7 @@ tp_blue_log_run_vm(){
 	echo -e "\n\n"
 }
 
-tp_red_log_etape_1(){
+tp_blue_log_etape_1(){
 	echo "------------------------------------------------------------------"
 	echo " Etape 1 - Explication de la vulnérabilité"
 	echo "------------------------------------------------------------------"
