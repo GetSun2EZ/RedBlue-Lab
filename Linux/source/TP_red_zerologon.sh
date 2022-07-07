@@ -41,11 +41,11 @@ tp_red_zero_run_vm(){
 	if [ ! -d ../VM/vm_red_zero ] && [ ! -e ../VM/vm_red_zero.zip ]
 	then
 	  wget -q --show-progress http://62.212.90.183:9090/vm_red_zero.zip -O ../VM/vm_red_zero.zip
-	  unzip ../VM/vm_red_zero.zip
+	  unzip ../VM/vm_red_zero.zip -d ../VM/
 	fi
 	if [ ! -d ../VM/vm_red_zero ] && [ -e ../VM/vm_red_zero.zip ]
 	then
-	  unzip ../VM/vm_red_zero.zip
+	  unzip ../VM/vm_red_zero.zip -d ../VM/
 	fi
 	
 	echo "[~] Lancement de la VM vulnérable"
