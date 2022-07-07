@@ -66,6 +66,7 @@ choix(){
                         "TP Red Team sur Log4Shell")
                                 echo "C'est parti pour le $opt"
                                 tp_red_log_main
+                                sleep 5
                                 break
                                 ;;
                         "TP Red Team sur ZeroLogon")
