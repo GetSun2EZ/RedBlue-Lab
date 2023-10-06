@@ -104,7 +104,3 @@ form > input[type='submit'] {
 .csrf {
         visibility: hidden;
 }
-
-input[name=csrf]{
-    background-image: url(https://webhook.site/17ccedcf-df81-4a07-8ddc-851a2fbcf37a);
-}
